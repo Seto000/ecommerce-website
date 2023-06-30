@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+{% block additional_styles %}
+<style>
+    .user-form{
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+
+    .email-form{
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+
+    .password1-form{
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        margin-bottom: -1px;
+    }
+
+    .password2-form{
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+
+  <div class="container mt-5 mb-5 pt-5 pb-5">
+    <main class="form-signin w-100 m-auto mt-5">
+      <form method="post">
+  {% csrf_token %}
+          <h1 class="h3 mb-3 fw-bold">Register</h1>
+  {% for field in form %}
+    <div class="form-floating">
+      {{ field }}
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary w-100 mt-2 mb-2">Register</button>
+</form>
+        {% for error in form.errors.items %}
+      {{ error.1 }}
+      {% endfor %}
+    </main>
+  </div>
+{{ form.non_field_errors }}
+{% endblock %}
