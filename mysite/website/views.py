@@ -169,9 +169,12 @@ def login_user(request):
     if request.method == 'POST':
         username = request.POST['username_form']
         password = request.POST['password_form']
+        remember = request.POST.get('remember')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            if remember != 'remember-me':
+                request.session.set_expiry(0)
             return redirect('index')
         else:
             messages.add_message(request, messages.ERROR, "Incorrect credentials or user not registered.")

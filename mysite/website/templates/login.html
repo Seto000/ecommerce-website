@@ -34,8 +34,11 @@
           {{ form.password_form }}
           <label for="{{ form.password_form.id_for_label }}">Password</label>
         </div>
+        <div class="form-check text-start mt-2">
+        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault" name="remember">
+        <label class="form-check-label" for="flexCheckDefault">Remember me</label>
+        </div>
         <button type="submit" class="btn btn-primary w-100 mt-2 mb-2">Log in</button>
-
       </form>
       {% if messages %}
       {% for message in messages %}
