@@ -41,7 +41,10 @@ def search(request):
 @login_required(login_url='login')
 def favorites(request):
     user_menu = UserMenu.objects.get(user=request.user.id)
-    user_favorites = user_menu.favorites.all()
+    user_favorites = user_menu.favorites.all().order_by('pk')
+    p = Paginator(user_favorites, per_page=6)
+    page = request.GET.get('page')
+    user_favorites = p.get_page(page)
     return render(request, 'favorites.html', {'favorites': user_favorites})
 
 
