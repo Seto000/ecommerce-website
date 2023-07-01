@@ -19,7 +19,7 @@ def index(request):
 
 
 def products(request):
-    all_products = Product.objects.all()
+    all_products = Product.objects.all().order_by('pk')
     p = Paginator(all_products, per_page=6)
     page = request.GET.get('page')
     products_p = p.get_page(page)
@@ -29,7 +29,10 @@ def products(request):
 def search(request):
     search_query = request.GET.get('search', '').strip()
     if search_query:
-        searched = Product.objects.filter(product_name__icontains=search_query)
+        searched = Product.objects.filter(product_name__icontains=search_query).order_by('pk')
+        p = Paginator(searched, per_page=6)
+        page = request.GET.get('page')
+        searched = p.get_page(page)
     else:
         searched = Product.objects.none()
     return render(request, 'search.html', {'searched': searched, 'query': search_query})
