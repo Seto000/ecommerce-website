@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ query }}{% endblock %}
+{% block title %}G Clothing : {{ query }}{% endblock %}
 
 {% block content %}
-  {% include 'navbar.html' %}
+  {% include 'navbar.html' with query=query %}
   {% if not searched %}
     <div class="container px-4 py-5">
       <div class="row align-items-stretch g-4 py-5">
@@ -32,8 +32,8 @@
                 {% if product in user.usermenu.favorites.all %}
                 <a href="{% url 'remove_from_favorites' product_id=result.id %}" class="btn border">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
-  <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-</svg>
+                      <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                    </svg>
                     <span class="badge text-muted"></span>
                 </a>
                 {% else %}

@@ -34,7 +34,7 @@ def search(request):
         page = request.GET.get('page')
         searched = p.get_page(page)
     else:
-        searched = Product.objects.none()
+        return redirect('index')
     return render(request, 'search.html', {'searched': searched, 'query': search_query})
 
 
