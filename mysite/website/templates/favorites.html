@@ -1,69 +1,114 @@
 {% extends 'base.html' %}
 
-{% block title %}Favorites{% endblock %}
+{% block title %}Favorites{% endblock %} 
 
-{% block content %}
-  {% include 'navbar.html' %}
-  <div class="container">
-    <div class="row">
-      {% for product in favorites %}
-        <div class="col-xs-12 col-sm-6 col-md-4 mb-5">
-          <div class="card h-100 d-flex flex-column">
-            <img src="{{ product.image }}" class="card-img-top" alt="Product Image">
-            <div class="card-body d-flex flex-column">
-              <h5 class="card-title">{{ product.product_name }}</h5>
-              <p class="card-text">
-                {% if product.description|length > 100 %}
-                  {{ product.description|slice:":100" }}...
-                {% else %}
-                  {{ product.description }}
-                {% endif %}
-              </p>
-              <div class="mt-auto">
-                <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
-                <a href="{% url 'add_to_cart' product_id=product.id %}" class="btn btn-primary">Add to Cart</a>
-                {% if product in user.usermenu.favorites.all %}
-                 <a href="{% url 'remove_from_favorites' product_id=product.id %}" class="btn border">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-        </svg>
-                    <span class="badge text-muted"></span>
-                </a>
-                {% else %}
-                <a href="{% url 'add_to_favorites' product_id=product.id %}" class="btn border">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                      </svg>
-                    <span class="badge text-muted"></span>
-                </a>
-                {% endif %}
-              </div>
-            </div>
+{% block content %} 
+{% include 'navbar.html' %}
+<div class="container">
+  <div class="row">
+    {% for product in favorites %}
+    <div class="col-xs-12 col-sm-6 col-md-4 mb-5">
+      <div class="card h-100 d-flex flex-column">
+        <img
+          src="{{ product.image }}"
+          class="card-img-top"
+          alt="Product Image"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ product.product_name }}</h5>
+          <p class="card-text">
+            {% if product.description|length > 100 %} 
+            {{ product.description|slice:":100" }}... 
+            {% else %} 
+            {{ product.description }} 
+            {% endif %}
+          </p>
+          <div class="mt-auto">
+            <h6 class="card-subtitle mb-2 text-muted">${{ product.price }}</h6>
+            <a
+              href="{% url 'add_to_cart' product_id=product.id %}"
+              class="btn btn-primary"
+              >Add to Cart</a
+            >
+            {% if product in user.usermenu.favorites.all %}
+            <a
+              href="{% url 'remove_from_favorites' product_id=product.id %}"
+              class="btn border"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="red"
+                class="bi bi-heart-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                />
+              </svg>
+              <span class="badge text-muted"></span>
+            </a>
+            {% else %}
+            <a
+              href="{% url 'add_to_favorites' product_id=product.id %}"
+              class="btn border"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-heart"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"
+                />
+              </svg>
+              <span class="badge text-muted"></span>
+            </a>
+            {% endif %}
           </div>
         </div>
-      {% endfor %}
-        <nav class="mx-auto" aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    {% if favorites.has_previous %}
-                    <a class="page-link" href="?page={{ favorites.previous_page_number }}&search={{ query }}">Previous</a>
-                    {% else %}
-                    <a class="page-link disabled" href="#">Previous</a>
-                    {% endif %}
-                </li>
-                {% for page in favorites.paginator.page_range %}
-                <li class="page-item {% if favorites.number == page %} active {% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
-                {% endfor %}
-                <li class="page-item">
-                    {% if favorites.has_next %}
-                    <a class="page-link" href="?page={{ favorites.next_page_number }}&search={{ query }}">Next</a>
-                    {% else %}
-                    <a class="page-link disabled" href="#">Next</a>
-                    {% endif %}
-                </li>
-            </ul>
-        </nav>
+      </div>
     </div>
+    {% endfor %}
+    <nav class="mx-auto" aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          {% if favorites.has_previous %}
+          <a
+            class="page-link"
+            href="?page={{ favorites.previous_page_number }}&search={{ query }}"
+            >Previous</a
+          >
+          {% else %}
+          <a class="page-link disabled" href="#">Previous</a>
+          {% endif %}
+        </li>
+        {% for page in favorites.paginator.page_range %}
+        <li
+          class="page-item {% if favorites.number == page %} active {% endif %}"
+        >
+          <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+        </li>
+        {% endfor %}
+        <li class="page-item">
+          {% if favorites.has_next %}
+          <a
+            class="page-link"
+            href="?page={{ favorites.next_page_number }}&search={{ query }}"
+            >Next</a
+          >
+          {% else %}
+          <a class="page-link disabled" href="#">Next</a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
   </div>
-  {% include 'footer.html' %}
+</div>
+{% include 'footer.html' %} 
 {% endblock %}

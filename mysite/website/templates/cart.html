@@ -1,92 +1,115 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 
-{% block title %}Cart{% endblock %}
+{% block title %}Cart{% endblock %} 
 
 {% block content %}
-  {% include 'navbar.html' %}
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12 col-md-10 mx-auto table-responsive">
-        <form method="post" action="{% url 'make_order' %}">
-          {% csrf_token %}
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Total</th>
-                <th> </th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for item in cart_items %}
-              <tr>
-                <td class="col-sm-8 col-md-6">
-                  <div class="media">
-                      <img class="rounded border border-2" src="{{ item.image }}" style="width: 72px; height: 72px;">
-                    <div class="media-body">
-                      <h4>{{ item.product_name }}</h4>
-                      <h5> by <a href="#">{{ item.brand }}</a></h5>
-                      <span>Status: </span>
-                      {% if item.quantity > 0 %}
-                      <span class="text-success">
-                        <strong>In Stock</strong>
-                      </span>
-                      {% else %}
-                      <span class="text-danger">
-                        <strong>Out of Stock</strong>
-                      </span>
-                      {% endif %}
-                    </div>
+{% include 'navbar.html' %}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-10 mx-auto table-responsive">
+      <form method="post" action="{% url 'make_order' %}">
+        {% csrf_token %}
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th class="text-center">Price</th>
+              <th class="text-center">Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+            <tr>
+              <td class="col-sm-8 col-md-6">
+                <div class="media">
+                  <img
+                    class="rounded border border-2"
+                    src="{{ item.image }}"
+                    style="width: 72px; height: 72px"
+                  />
+                  <div class="media-body">
+                    <h4>{{ item.product_name }}</h4>
+                    <h5>by <a href="#">{{ item.brand }}</a></h5>
+                    <span>Status: </span>
+                    {% if item.quantity > 0 %}
+                    <span class="text-success">
+                      <strong>In Stock</strong>
+                    </span>
+                    {% else %}
+                    <span class="text-danger">
+                      <strong>Out of Stock</strong>
+                    </span>
+                    {% endif %}
                   </div>
-                </td>
-                <td class="col-sm-1 col-md-1" style="text-align: center">
-                  <input type="number" data-product-id="{{ item.id }}" class="form-control quantity-input" name="quantity[]" value="1" min="1" max="{{ item.quantity }}" data-price="{{ item.price }}">
-                  <input type="hidden" name="product_obj[]" value="{{ item }}">
-                </td>
-                <td class="col-sm-1 col-md-1 text-center"><strong>${{ item.price }}</strong></td>
-                <td class="col-sm-1 col-md-1 text-center">
-                  <strong>
-                    <span class="total-amount" data-price="{{ item.price }}">${{ item.price }}</span>
-                  </strong>
-                </td>
-                <td class="col-sm-1 col-md-1">
-                  <a class="btn btn-danger" href="{% url 'remove_from_cart' product_id=item.id %}">Remove
-                  </a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan="3"></td>
-                <td><h3>Subtotal</h3></td>
-                <td class="text-right"><h3><strong id="subtotalAmount">$0.00</strong></h3></td>
-              </tr>
-              <tr>
-                <td colspan="3"></td>
-                <td>
-                  <a type="button" class="btn" href="{% url 'products' %}">Continue Shopping
-                  </a>
-                </td>
-                <td>
-                  <button type="submit" class="btn btn-success">Checkout</button>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </form>
-      </div>
+                </div>
+              </td>
+              <td class="col-sm-1 col-md-1" style="text-align: center">
+                <input
+                  type="number"
+                  data-product-id="{{ item.id }}"
+                  class="form-control quantity-input"
+                  name="quantity[]"
+                  value="1"
+                  min="1"
+                  max="{{ item.quantity }}"
+                  data-price="{{ item.price }}"
+                />
+                <input type="hidden" name="product_obj[]" value="{{ item }}" />
+              </td>
+              <td class="col-sm-1 col-md-1 text-center">
+                <strong>${{ item.price }}</strong>
+              </td>
+              <td class="col-sm-1 col-md-1 text-center">
+                <strong>
+                  <span class="total-amount" data-price="{{ item.price }}"
+                    >${{ item.price }}</span
+                  >
+                </strong>
+              </td>
+              <td class="col-sm-1 col-md-1">
+                <a
+                  class="btn btn-danger"
+                  href="{% url 'remove_from_cart' product_id=item.id %}"
+                  >Remove
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3"></td>
+              <td><h3>Subtotal</h3></td>
+              <td class="text-right">
+                <h3><strong id="subtotalAmount">$0.00</strong></h3>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td>
+                <a type="button" class="btn" href="{% url 'products' %}"
+                  >Continue Shopping
+                </a>
+              </td>
+              <td>
+                <button type="submit" class="btn btn-success">Checkout</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </form>
     </div>
   </div>
-  {% include 'footer.html' %}
-  <script>
-  var quantityInputs = document.getElementsByClassName('quantity-input');
-  var subtotalElement = document.getElementById('subtotalAmount');
+</div>
+{% include 'footer.html' %}
+<script>
+  var quantityInputs = document.getElementsByClassName("quantity-input");
+  var subtotalElement = document.getElementById("subtotalAmount");
 
   Array.from(quantityInputs).forEach(function (input) {
-    input.addEventListener('change', calculateSubtotal);
+    input.addEventListener("change", calculateSubtotal);
   });
 
   function calculateSubtotal() {
@@ -94,14 +117,17 @@
 
     Array.from(quantityInputs).forEach(function (input) {
       var quantity = parseInt(input.value);
-      var price = parseFloat(input.getAttribute('data-price'));
+      var price = parseFloat(input.getAttribute("data-price"));
       var itemTotal = quantity * price;
-      var totalAmountElement = input.parentNode.nextElementSibling.nextElementSibling.querySelector('.total-amount');
-      totalAmountElement.textContent = '$' + itemTotal.toFixed(2);
+      var totalAmountElement =
+        input.parentNode.nextElementSibling.nextElementSibling.querySelector(
+          ".total-amount"
+        );
+      totalAmountElement.textContent = "$" + itemTotal.toFixed(2);
       subtotal += itemTotal;
     });
 
-    subtotalElement.textContent = '$' + subtotal.toFixed(2);
+    subtotalElement.textContent = "$" + subtotal.toFixed(2);
   }
 
   calculateSubtotal();
