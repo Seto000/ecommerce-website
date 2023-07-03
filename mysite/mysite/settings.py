@@ -17,10 +17,10 @@ MESSAGE_TAGS = {
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-bytm8r8r8npmx*yju!&hba!04l_#%%2a5j7*f_52%l=3mv9#d('
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -126,15 +126,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-
-STATICFILES_DIRS = [
-   os.path.join(BASE_DIR, "website/static"),
-   ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
 
