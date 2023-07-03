@@ -136,7 +136,7 @@ STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "website/static"),
    ]
 
-STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
+STATIC_ROOT = BASE_DIR / "static"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
