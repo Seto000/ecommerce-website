@@ -194,7 +194,7 @@ def logout_user(request):
 
 @csrf_exempt
 def my_webhook_view(request):
-    endpoint_secret = os.environ.get('stripe_endpoint_secret')
+    endpoint_secret = os.environ.get('stripe_endpoint_secret_live')
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None
